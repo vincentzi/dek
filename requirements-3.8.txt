@@ -1,5 +1,0 @@
-pydantic
-python-dotenv
-smart_open
-ruamel.yaml
-pandas
