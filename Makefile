@@ -5,9 +5,9 @@ help:	## This help.
 clean: clean-build clean-pyc clean-test ## remove all build, test, coverage and Python artifacts
 
 clean-build: ## Remove build artifacts
-	rm -fr build/
-	rm -fr dist/
-	rm -fr .eggs/
+	rm -rf build/
+	rm -rf dist/
+	rm -rf .eggs/
 	find . -name '*.egg-info' -exec rm -fr {} +
 	find . -name '*.egg' -exec rm -f {} +
 
@@ -18,16 +18,22 @@ clean-pyc: ## Remove Python file artifacts
 	find . -name '__pycache__' -exec rm -fr {} +
 
 clean-test: ## Remove test and coverage artifacts
-	rm -fr .tox/
+	rm -rf .tox/
 	rm -f .coverage
-	rm -fr htmlcov/
-	rm -fr .pytest_cache
+	rm -rf htmlcov/
+	rm -rf .pytest_cache
 
 # install: clean  ## Install in a current environment
 # 	python setup.py install
 
 install-dev: ## Install in development mode
 	pip install -e ".[dev]"
+
+uninstall-dev: ## Uninstall development packages
+	pip freeze > requirements.txt
+	pip uninstall -r requirements.txt -y || true
+	rm requirements.txt
+
 
 build: clean ## Build wheel
 	python -m build
