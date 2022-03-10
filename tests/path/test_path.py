@@ -16,7 +16,7 @@ def test_s3path_good_uri():
     assert isinstance(path, ObjectStoragePath)
 
 @pytest.mark.parametrize(
-    'uri,is_valid',
+    'uri,is_qualified',
     [
         ('s3:///mybucket/folder/subfolder/sample.txt.gzip', False),
         ('s3://mybucket//folder/subfolder/sample.txt.gzip', False),
@@ -26,8 +26,8 @@ def test_s3path_good_uri():
         ('mybucket/folder/subfolder/sample.txt.gzip', False),
     ]
 )
-def test_s3path_bad_uris(uri, is_valid):
-    assert S3Path.is_valid_uri(uri) == is_valid
+def test_s3path_bad_uris(uri, is_qualified):
+    assert S3Path.is_qualified_uri(uri) == is_qualified
 
 def test_s3path_equality():
     path1 = S3Path.from_uri('s3://mybucket/folder/subfolder/sample.txt.gzip')

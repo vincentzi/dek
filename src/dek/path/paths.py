@@ -1,16 +1,12 @@
 from pathlib import PurePosixPath
-
-try:
-    from typing import Self
-except ImportError:
-    from typing_extensions import Self
+from operator import methodcaller
 
 __all__ = (
     'ObjectStoragePath',
     'S3Path',
 )
 
-def _count_overlapping_substring(string: str, sub: str):
+def _count_overlapping_substring(string: str, sub: str) -> int:
     count = start = 0
     while True:
         start = string.find(sub, start) + 1
@@ -19,11 +15,18 @@ def _count_overlapping_substring(string: str, sub: str):
         else:
             return count
 
+
 class BadUriError(Exception):
     ...
 
+
 class ObjectStoragePath:
     scheme = 'tbd'
+
+    uri_qualifiers = [
+        lambda uri: uri.endswith('.') == False,
+        lambda uri: _count_overlapping_substring(uri, '//') == 1,
+    ]
 
     def __init__(self, bucket: str, key: str):
         self._bucket = bucket
@@ -67,13 +70,17 @@ class ObjectStoragePath:
         return self._key_path.suffix
 
     @classmethod
-    def is_valid_uri(cls, uri) -> bool:
-        return uri.startswith(f'{cls.scheme}://') and _count_overlapping_substring(uri, '//') == 1
+    def is_qualified_uri(cls, uri) -> bool:
+        _qualifiers = [
+            lambda uri: uri.startswith(f'{cls.scheme}://'), 
+            *cls.uri_qualifiers,
+        ]
 
+        return all([q(uri) for q in _qualifiers])
 
     @classmethod
-    def from_uri(cls, uri: str) -> Self:
-        if cls.is_valid_uri(uri): 
+    def from_uri(cls, uri: str) -> 'ObjectStoragePath':
+        if cls.is_qualified_uri(uri): 
             bucket, _, key = uri.partition(f'{cls.scheme}://')[2].partition('/')
             return cls(bucket, key)
 
