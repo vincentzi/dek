@@ -1,7 +1,7 @@
 from pyspark.sql import SparkSession, Row
 from chispa import assert_df_equality
 
-from dek.spark.transformation import union_dfs
+from dek.spark.transform import union_dfs
 
 
 def test_union_dfs(spark: SparkSession):
