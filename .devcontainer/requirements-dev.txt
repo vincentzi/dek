@@ -1,0 +1,5 @@
+awscli-local
+pytest
+pytest-cov
+black
+ipdb

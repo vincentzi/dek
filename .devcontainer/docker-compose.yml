@@ -1,0 +1,22 @@
+version: '3'
+services:
+  devcontainer:
+    build: 
+      context: .
+      dockerfile: Dockerfile
+      args:
+        - USERNAME=vscode
+        - USER_UID=1000
+        - USER_GID=1000
+    environment:
+      - LOCALSTACK_HOST=localstack
+    volumes:
+      - ..:/workspace
+    command: sleep infinity
+  localstack:
+    image: localstack/localstack
+    environment: 
+      - SERVICES=s3
+      - DATA_DIR=/tmp/localstack/data
+    volumes:
+      - ./persistence/localstack:/tmp/localstack
