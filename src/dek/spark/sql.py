@@ -40,7 +40,7 @@ class SparkSQLExecutor(SQLExecutor, LogMixin):
             if not _statement:
                 continue
 
-            with Timer(logger=self.logger.info, text=f"Elapsed time: {{:0.4f}} seconds"):
+            with Timer(log=self.logger.info, text=f"Elapsed time: {{:0.4f}} seconds"):
                 self.logger.info(f"Executing statement:\n{_indented(_statement)}\n")
                 result_df = self.spark.sql(sqlQuery=_statement)
 

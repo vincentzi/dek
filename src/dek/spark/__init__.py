@@ -1,13 +1,13 @@
 from .config import *
 from .core import *
-from .transformation import *
+from .transform import *
 from .sql import *
 from .udf import *
 
 modules = (
     config,
     core,
-    transformation,
+    transform,
     sql,
     udf,
 )

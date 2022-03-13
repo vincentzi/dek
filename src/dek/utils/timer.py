@@ -7,8 +7,6 @@ __all__ = (
     'Timer',
 )
 
-logger_ = logging.getLogger(__name__)
-
 
 class TimerError(Exception):
     """A custom exception used to report errors in use of Timer class"""
@@ -19,10 +17,12 @@ class Timer:
     A timing utility class that can be used as decorator or context manager
 
     """
-    def __init__(self, func=None, text="Elapsed time: {:0.4f} seconds", logger=logger_.info):
+    def __init__(self, func=None, text="Elapsed time: {:0.4f} seconds", log=None):
         self._start_time = None
         self.text = text
-        self.logger = logger
+        
+        _logger = logging.getLogger(self.__class__.__module__ + '.' + self.__class__.__name__)
+        self.log = log or _logger.info
 
         if func:
             self._func = func
@@ -76,7 +76,7 @@ class Timer:
         elapsed_time = time.perf_counter() - self._start_time
         self._start_time = None
 
-        if self.logger:
-            self.logger(self.text.format(elapsed_time))
+
+        self.log(self.text.format(elapsed_time))
 
         return elapsed_time
