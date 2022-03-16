@@ -1,0 +1,9 @@
+{
+    "name": "glue-dev",
+    "dockerComposeFile": "docker-compose.yml",
+    "service": "devcontainer",
+    "shutdownAction": "stopCompose",
+    "workspaceFolder": "/workspace",
+    "extensions": ["ms-python.python", "esbenp.prettier-vscode"],
+    "remoteUser": "vscode"
+}

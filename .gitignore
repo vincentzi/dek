@@ -298,3 +298,6 @@ cython_debug/
 .idea/
 .vscode/
 /.python-version
+
+.devcontainer/persistence/
+.docker/
