@@ -3,7 +3,7 @@ from typing import Mapping, Callable, Any, Union
 from abc import ABC, abstractmethod
 import pandas as pd
 
-from dek.io import open_file
+from dek.fs import open_file
 from dek.utils import LogMixin
 
 __all__ = (
