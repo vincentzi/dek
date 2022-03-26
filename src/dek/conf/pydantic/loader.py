@@ -1,7 +1,7 @@
 from typing import List, Union, Type
 from pydantic import BaseModel
 
-from dek.io import open_file
+from dek.fs import open_file
 from .deserializer import FileDeserializer
 
 
