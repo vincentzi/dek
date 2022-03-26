@@ -1,5 +1,5 @@
 import pytest
-from dek.path.paths import S3Path, ObjectStoragePath
+from dek.models import S3Path, ObjectStoragePath
 
 def test_s3path_good_uri():
     path = S3Path.from_uri('s3://mybucket/folder/subfolder/sample.txt.gzip')

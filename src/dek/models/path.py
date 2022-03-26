@@ -1,5 +1,4 @@
 from pathlib import PurePosixPath
-from operator import methodcaller
 
 __all__ = (
     'ObjectStoragePath',
