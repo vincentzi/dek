@@ -53,4 +53,3 @@ def test_InMemoryCsvFile_from_dict_records():
     assert next(lines) == 'customer_id,age,description\n'
     assert next(lines) == 'john,20,hello\n'
     assert next(lines) == 'mary,40,world\n'
-

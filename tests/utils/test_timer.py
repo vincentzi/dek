@@ -10,5 +10,3 @@ def test_timer_context_manager(capsys):
 
     captured = capsys.readouterr()
     assert captured.out == "time: 1.00 seconds\n"
-
-

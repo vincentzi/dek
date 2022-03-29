@@ -54,8 +54,8 @@ class HiveReadable(LogMixin):
         cols = ',\n\t\t'.join([col for col in columns.keys()])
 
         sql = f"""
-            SELECT 
-                {cols} 
+            SELECT
+                {cols}
             FROM {self.db_table_name}
         """
 

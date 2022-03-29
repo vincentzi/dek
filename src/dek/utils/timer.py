@@ -20,7 +20,7 @@ class Timer:
     def __init__(self, func=None, text="Elapsed time: {:0.4f} seconds", log=None):
         self._start_time = None
         self.text = text
-        
+
         _logger = logging.getLogger(self.__class__.__module__ + '.' + self.__class__.__name__)
         self.log = log or _logger.info
 

@@ -71,7 +71,7 @@ class ObjectStoragePath:
     @classmethod
     def is_qualified_uri(cls, uri) -> bool:
         _qualifiers = [
-            lambda uri: uri.startswith(f'{cls.scheme}://'), 
+            lambda uri: uri.startswith(f'{cls.scheme}://'),
             *cls.uri_qualifiers,
         ]
 
@@ -79,7 +79,7 @@ class ObjectStoragePath:
 
     @classmethod
     def from_uri(cls, uri: str) -> 'ObjectStoragePath':
-        if cls.is_qualified_uri(uri): 
+        if cls.is_qualified_uri(uri):
             bucket, _, key = uri.partition(f'{cls.scheme}://')[2].partition('/')
             return cls(bucket, key)
 

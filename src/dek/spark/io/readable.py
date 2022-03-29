@@ -11,7 +11,7 @@ class CsvReadable(LogMixin):
     """
 
     options: Dict[str, str] = dict()
-    
+
     def __init__(self, spark: SparkSession):
         self.spark = spark
 

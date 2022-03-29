@@ -1,7 +1,7 @@
 version: '3'
 services:
   devcontainer:
-    build: 
+    build:
       context: .
       dockerfile: Dockerfile
       args:
@@ -15,7 +15,7 @@ services:
     command: sleep infinity
   localstack:
     image: localstack/localstack
-    environment: 
+    environment:
       - SERVICES=s3
       - DATA_DIR=/tmp/localstack/data
     volumes:

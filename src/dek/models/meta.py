@@ -90,4 +90,3 @@ class ValidatedRuntimeProperty(ABC):
             f'Class attribute \"exception_class\" of class \"{self.__module__}.{self.__class__.__name__}\" '
             'must be a subclass of built-in "Exception"!!!'
         )
-

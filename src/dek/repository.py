@@ -57,6 +57,3 @@ if __name__ == '__main__':
 
     for line in csv_file:
         print(repr(line))
-        
-
-            

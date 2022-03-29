@@ -46,7 +46,7 @@ class LogMeta(type):
 
 def logutils(cls):
     """ Inject logger as instance attribute using class decorator """
-    
+
     def _(*args, **kwargs):
         instance = cls(*args, **kwargs)
         instance.logger = logging.getLogger(f'{cls.__module__}.{cls.__name__}')
