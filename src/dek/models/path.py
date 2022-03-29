@@ -5,12 +5,15 @@ __all__ = (
     'S3Path',
 )
 
+
 def _count_overlapping_substring(string: str, sub: str) -> int:
     count = start = 0
     while True:
         start = string.find(sub, start) + 1
         if start > 0:
-            count+=1
+
+            count += 1
+
         else:
             return count
 
@@ -23,7 +26,8 @@ class ObjectStoragePath:
     scheme = 'tbd'
 
     uri_qualifiers = [
-        lambda uri: uri.endswith('.') == False,
+
+        lambda uri: not uri.endswith('.'),
         lambda uri: _count_overlapping_substring(uri, '//') == 1,
     ]
 
@@ -71,7 +75,8 @@ class ObjectStoragePath:
     @classmethod
     def is_qualified_uri(cls, uri) -> bool:
         _qualifiers = [
-            lambda uri: uri.startswith(f'{cls.scheme}://'), 
+            lambda uri: uri.startswith(f'{cls.scheme}://'),
+
             *cls.uri_qualifiers,
         ]
 

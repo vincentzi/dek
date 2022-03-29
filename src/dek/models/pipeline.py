@@ -5,7 +5,7 @@ from .context import Context, ContextTracker
 
 
 class BasePipeline(LogMixin):
-    """ Basic pipeline with logging util """
+    """Basic pipeline with logging util"""
 
 
 class SparkPipeline(BasePipeline, SparkMixin):
@@ -16,9 +16,13 @@ class SparkPipeline(BasePipeline, SparkMixin):
 
     def __init__(self, context: Context):
         _mro_cls_names = [klass.__name__ for klass in self.__class__.__mro__]
-        self.logger.info(f'Inside {self.__class__.__name__}. MRO: {_mro_cls_names}')
+        self.logger.info(
+            f'Inside {self.__class__.__name__}. MRO: {_mro_cls_names}'
+        )
 
-        _namespaced_cls = self.__class__.__module__ + '.' + self.__class__.__name__
+        _namespaced_cls = (
+            self.__class__.__module__ + '.' + self.__class__.__name__
+        )
         self._context = context
 
         if context.spark is not None:

@@ -19,11 +19,14 @@ def parse_single_doc(obj: dict, model: Type[BaseModel]) -> BaseModel:
     return model.parse_obj(obj)
 
 
-def parse_multi_doc(obj: List[dict], model: Type[BaseModel]) -> List[BaseModel]:
+def parse_multi_doc(
+    obj: List[dict], model: Type[BaseModel]
+) -> List[BaseModel]:
     """
     Given a list of dict object and a Pydantic model class, return a list of model instances
     """
     return [model.parse_obj(s) for s in obj]
+
 
 # **********************************************************************************************************************
 # Interface, Base Class
@@ -38,9 +41,7 @@ class DocumentHandler(GenericDocumentHandler[BaseModel]):
 
 
 class DocumentDeserializer(GenericFileDeserializer[BaseModel]):
-    handlers: Dict[str, DocumentHandler] = {
-
-    }
+    handlers: Dict[str, DocumentHandler] = {}
 
     def __init__(self, doc_mode: str):
         self.doc_mode = doc_mode
@@ -53,7 +54,9 @@ class DocumentDeserializer(GenericFileDeserializer[BaseModel]):
     def read(self, file: IO) -> Union[dict, List[dict]]:
         return self.handler.reader(file)
 
-    def parse(self, obj: Union[dict, List[dict]], model: Type[BaseModel]) -> Union[BaseModel, List[BaseModel]]:
+    def parse(
+        self, obj: Union[dict, List[dict]], model: Type[BaseModel]
+    ) -> Union[BaseModel, List[BaseModel]]:
         return self.handler.parser(obj, model)
 
 
@@ -65,7 +68,9 @@ class DocumentDeserializer(GenericFileDeserializer[BaseModel]):
 class YAMLDocumentDeserializer(DocumentDeserializer):
     handlers = {
         'single': DocumentHandler(reader=yaml.load, parser=parse_single_doc),
-        'multiple': DocumentHandler(reader=yaml.load_all, parser=parse_multi_doc)
+        'multiple': DocumentHandler(
+            reader=yaml.load_all, parser=parse_multi_doc
+        ),
     }
 
 

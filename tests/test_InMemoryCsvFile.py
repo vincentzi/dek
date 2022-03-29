@@ -8,7 +8,7 @@ def test_InMemoryCsvFile_init():
         data=[
             ['john', '20', 'hello'],
             ['mary', '40', 'world'],
-        ]
+        ],
     )
 
     lines = iter(csv_file.read())
@@ -25,7 +25,7 @@ def test_InMemoryCsvFile_bad_row_content():
             data=[
                 ['john', '20', 'hello'],
                 ['mary', 40, 'world'],
-            ]
+            ],
         )
 
 
@@ -36,7 +36,7 @@ def test_InMemoryCsvFile_header_row_mismatch():
             data=[
                 ['john', '20'],
                 ['mary', '40'],
-            ]
+            ],
         )
 
 
@@ -53,4 +53,3 @@ def test_InMemoryCsvFile_from_dict_records():
     assert next(lines) == 'customer_id,age,description\n'
     assert next(lines) == 'john,20,hello\n'
     assert next(lines) == 'mary,40,world\n'
-

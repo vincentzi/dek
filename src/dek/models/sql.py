@@ -13,12 +13,13 @@ __all__ = (
 
 
 class SQLExecutor(ABC):
+    @abstractmethod
+    def execute(self):
+        ...
 
     @abstractmethod
-    def execute(self): ...
-
-    @abstractmethod
-    def fetch_df(self) -> pd.DataFrame: ...
+    def fetch_df(self) -> pd.DataFrame:
+        ...
 
     def fetch_result(self, callback: Callable[[pd.DataFrame], Any]):
         callback(self.fetch_df())
@@ -28,9 +29,12 @@ class SQLScriptStore(Mapping, LogMixin):
     """
     A custom mapping class that lookup and build HQL instance from script
     """
+
     _scripts = {}
 
-    def __init__(self, root_dir: str, params: dict, executor: SQLExecutor = None):
+    def __init__(
+        self, root_dir: str, params: dict, executor: SQLExecutor = None
+    ):
         self.root_dir = root_dir
         self.params = params
         self.executor = executor
@@ -56,7 +60,7 @@ class SQLScriptStore(Mapping, LogMixin):
 
         try:
             _sql = self._scripts[script_name]
-            self.logger.info(f'Retrieve existing SQL from script store')
+            self.logger.info('Retrieve existing SQL from script store')
             return _sql
         except KeyError:
             self.logger.info(f'Creating new SQL from {script_uri}')

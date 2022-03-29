@@ -18,6 +18,7 @@ class WeekSuffixTable(Table):
     """
     Class for keeping track of a table with week identifier
     """
+
     def __call__(self, week_identifier: str) -> 'WeekSuffixTable':
         self.week_identifier = week_identifier
         return self

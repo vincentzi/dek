@@ -11,7 +11,7 @@ class CsvReadable(LogMixin):
     """
 
     options: Dict[str, str] = dict()
-    
+
     def __init__(self, spark: SparkSession):
         self.spark = spark
 
@@ -21,9 +21,7 @@ class CsvReadable(LogMixin):
 
     def read(self) -> DataFrame:
         self.logger.info(f"Reading csv files from {self.path}")
-        return self.spark.read \
-            .options(**self.options) \
-            .csv(path=self._path)
+        return self.spark.read.options(**self.options).csv(path=self._path)
 
 
 class JsonReadable(LogMixin):
@@ -42,6 +40,4 @@ class JsonReadable(LogMixin):
 
     def read(self) -> DataFrame:
         self.logger.info(f"Reading json files from {self.path}")
-        return self.spark.read \
-            .options(**self.options) \
-            .json(path=self._path)
+        return self.spark.read.options(**self.options).json(path=self._path)

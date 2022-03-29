@@ -38,6 +38,7 @@ class GenericContextTracker(Generic[T]):
 # File Parsing
 # **********************************************************************************************************************
 
+
 class GenericFileDeserializer(Generic[MODEL]):
     def read(self, file: IO) -> Union[dict, List[dict]]:
         """
@@ -45,7 +46,9 @@ class GenericFileDeserializer(Generic[MODEL]):
         """
         raise NotImplementedError
 
-    def parse(self, obj: Union[dict, List[dict]], model: Type[MODEL]) -> Union[MODEL, List[MODEL]]:
+    def parse(
+        self, obj: Union[dict, List[dict]], model: Type[MODEL]
+    ) -> Union[MODEL, List[MODEL]]:
         """
         Given a dict or a list of dict and a model class, return a model instance or a list of model instances
         """
@@ -58,8 +61,8 @@ class GenericDocumentHandler(Generic[MODEL]):
         reader: Callable[[IO], Union[dict, List[dict]]],
         parser: Union[
             Callable[[dict, Type[MODEL]], MODEL],
-            Callable[[List[dict], Type[MODEL]], List[MODEL]]
-        ]
-     ):
+            Callable[[List[dict], Type[MODEL]], List[MODEL]],
+        ],
+    ):
         self.reader = reader
         self.parser = parser
