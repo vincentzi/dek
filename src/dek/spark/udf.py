@@ -1,11 +1,16 @@
 import json
 
-from pyspark.sql.types import StructType, StructField, ArrayType, StringType, MapType, BooleanType
+from pyspark.sql.types import (
+    StructType,
+    StructField,
+    ArrayType,
+    StringType,
+    MapType,
+    BooleanType,
+)
 from pyspark.sql.functions import udf
 
-__all__ = (
-    'udf_parse_json',
-)
+__all__ = ('udf_parse_json',)
 
 
 def parse_json(array_str):
@@ -15,10 +20,12 @@ def parse_json(array_str):
 
 
 user_properties_schema = ArrayType(
-    StructType([
-        StructField('key', StringType(), True),
-        StructField('value', MapType(StringType(), StringType()), True)
-    ])
+    StructType(
+        [
+            StructField('key', StringType(), True),
+            StructField('value', MapType(StringType(), StringType()), True),
+        ]
+    )
 )
 
 

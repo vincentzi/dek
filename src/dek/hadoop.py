@@ -11,16 +11,26 @@ def remove_from_hdfs(sink):
 
 
 def hql_create_external_table_template(
-        table_name: str,
-        path: str,
-        column_def: Mapping[str, str],
-        partition_def: Optional[Mapping[str, str]] = None,
-        format: str = 'PARQUET'
+    table_name: str,
+    path: str,
+    column_def: Mapping[str, str],
+    partition_def: Optional[Mapping[str, str]] = None,
+    format: str = 'PARQUET',
 ):
-    columns = ', '.join([f"{column_name} {data_type}" for column_name, data_type in column_def.items()])
+    columns = ', '.join(
+        [
+            f"{column_name} {data_type}"
+            for column_name, data_type in column_def.items()
+        ]
+    )
 
     if partition_def:
-        partitions = ', '.join([f"{partition_col} {data_type}" for partition_col, data_type in partition_def.items()])
+        partitions = ', '.join(
+            [
+                f"{partition_col} {data_type}"
+                for partition_col, data_type in partition_def.items()
+            ]
+        )
         partition_clause = f"PARTITIONED BY ({partitions})"
     else:
         partition_clause = ''

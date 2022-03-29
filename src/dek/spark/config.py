@@ -6,14 +6,14 @@ __all__ = (
 
 class SparkConfig:
     def __init__(
-            self,
-            shuffle_partitions: int = 200,
-            min_executors: int = 2,
-            driver_memory: str = '50g',
-            driver_cores: int = 5,
-            executor_memory: str = '50g',
-            executor_cores: int = 5,
-            executor_instances: int = 30,
+        self,
+        shuffle_partitions: int = 200,
+        min_executors: int = 2,
+        driver_memory: str = '50g',
+        driver_cores: int = 5,
+        executor_memory: str = '50g',
+        executor_cores: int = 5,
+        executor_instances: int = 30,
     ):
         self.shuffle_partitions = shuffle_partitions
         self.min_executors = min_executors

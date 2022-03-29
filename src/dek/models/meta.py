@@ -78,9 +78,13 @@ class ValidatedRuntimeProperty(ABC):
             return self.fget(instance)
         except AttributeError:
             try:
-                raise self.exception_cls(self.templated_err_msg.format(name=self.property_name))
+                raise self.exception_cls(
+                    self.templated_err_msg.format(name=self.property_name)
+                )
             except Exception:
-                raise ValidatedRuntimePropertyException(self.templated_err_msg.format(name=self.property_name))
+                raise ValidatedRuntimePropertyException(
+                    self.templated_err_msg.format(name=self.property_name)
+                )
 
     def _validate(self):
         if issubclass(self.exception_cls, Exception):

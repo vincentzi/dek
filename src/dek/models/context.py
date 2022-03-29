@@ -64,4 +64,4 @@ class Context:
 
 
 class ContextTracker(GenericContextTracker[Context]):
-    """ Context injection utility """
+    """Context injection utility"""

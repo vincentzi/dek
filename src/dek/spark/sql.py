@@ -40,8 +40,13 @@ class SparkSQLExecutor(SQLExecutor, LogMixin):
             if not _statement:
                 continue
 
-            with Timer(log=self.logger.info, text=f"Elapsed time: {{:0.4f}} seconds"):
-                self.logger.info(f"Executing statement:\n{_indented(_statement)}\n")
+            with Timer(
+                log=self.logger.info,
+                text=f"Elapsed time: {{:0.4f}} seconds",  # noqa: F541
+            ):
+                self.logger.info(
+                    f"Executing statement:\n{_indented(_statement)}\n"
+                )
                 result_df = self.spark.sql(sqlQuery=_statement)
 
         if result_df:
@@ -52,7 +57,9 @@ class SparkSQLExecutor(SQLExecutor, LogMixin):
         return self.execute()
 
 
-def execute_sql(spark: SparkSession, sql: str, logger=_logger.info) -> DataFrame:
+def execute_sql(
+    spark: SparkSession, sql: str, logger=_logger.info
+) -> DataFrame:
     if logger:
         logger(f"Execute sql:\n{_indented(sql)}")
 

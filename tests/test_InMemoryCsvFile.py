@@ -8,7 +8,7 @@ def test_InMemoryCsvFile_init():
         data=[
             ['john', '20', 'hello'],
             ['mary', '40', 'world'],
-        ]
+        ],
     )
 
     lines = iter(csv_file.read())
@@ -25,7 +25,7 @@ def test_InMemoryCsvFile_bad_row_content():
             data=[
                 ['john', '20', 'hello'],
                 ['mary', 40, 'world'],
-            ]
+            ],
         )
 
 
@@ -36,7 +36,7 @@ def test_InMemoryCsvFile_header_row_mismatch():
             data=[
                 ['john', '20'],
                 ['mary', '40'],
-            ]
+            ],
         )
 
 
