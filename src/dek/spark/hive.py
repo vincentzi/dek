@@ -54,14 +54,12 @@ class HiveReadable(LogMixin):
         cols = ',\n\t\t'.join([col for col in columns.keys()])
 
         sql = f"""
-            SELECT
-                {cols}
+            SELECT 
+                {cols} 
             FROM {self.db_table_name}
         """
 
-        return execute_sql(
-            spark=self._context.spark, sql=sql, logger=self.logger.info
-        )
+        return execute_sql(spark=self._context.spark, sql=sql, logger=self.logger.info)
 
 
 class HiveWritable(LogMixin):
@@ -125,6 +123,7 @@ class HiveWritable(LogMixin):
 
 class HiveManagedTableWritable(HiveWritable):
     def save(self, df: DataFrame):
+
         self.logger.info(
             f"Writing to table {self.db_table_name} in {self.file_format} format."
         )
@@ -211,6 +210,7 @@ class HiveExternalPartitionedTableWritable(HiveExternalTableWritable):
         - path
     """
 
+
     def remove_partition(self, **partition):
         remove_from_hdfs(sink=self.path(**partition))
 
@@ -275,24 +275,25 @@ class HiveExternalMonthPartitionedTableReadWritable(
     def add(self, delta_df, month_id):
         current_df = self.read().filter(col('p_monthid') == lit(month_id))
 
+
         updated_df = current_df.unionByName(delta_df)
         self.append(df=updated_df, month_id=month_id)
-
 
 class HiveTextFileWritable(HiveWritable):
     def save(self, df: DataFrame):
         if len(df.columns) > 1:
-            raise ValueError('Input df should contain only one column')
+            raise ValueError(f'Input df should contain only one column')
 
         self.logger.info(f'Writing to {self.base_path} in csv format')
 
-        df.write.mode('overwrite').format('csv').option('sep', '|').option(
-            'header', 'false'
-        ).option('ignoreLeadingWhiteSpace', 'false').option(
-            'ignoreTrailingWhiteSpace', 'false'
-        ).save(
-            path=self.base_path
-        )
+        df.write \
+            .mode('overwrite') \
+            .format('csv') \
+            .option('sep', '|') \
+            .option('header', 'false') \
+            .option('ignoreLeadingWhiteSpace', 'false') \
+            .option('ignoreTrailingWhiteSpace', 'false') \
+            .save(path=self.base_path)
 
 
 # **********************************************************************************************************************
@@ -321,6 +322,7 @@ class OverridingTablePrefix:
     """
     Decorator factory to force usage of hard-coded table prefix
     """
+
 
     def __init__(self, prefix):
         self.table_prefix = prefix

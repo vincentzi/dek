@@ -41,7 +41,6 @@ class LogMixin:
 
 class LogMeta(type):
     """Provide logger as instance attribute using metaclass"""
-
     def __new__(cls, name, bases, dct):
         instance = super().__new__(cls, name, bases, dct)
         instance.logger = logging.getLogger(f"{dct['__module__']}.{name}")

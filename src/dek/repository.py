@@ -38,9 +38,7 @@ class InMemoryCsvFile:
         return self._file
 
     @classmethod
-    def from_json_records(
-        cls, records: Sequence[dict], sep: str = ','
-    ) -> 'InMemoryCsvFile':
+    def from_json_records(cls, records: Sequence[dict], sep: str = ',') -> 'InMemoryCsvFile':
         field_names = records[0].keys()
         data = [r.values() for r in records]
         return cls(field_names=field_names, data=data, sep=sep)
