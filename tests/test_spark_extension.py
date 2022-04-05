@@ -1,4 +1,5 @@
 import pytest
+from pyspark.sql import SparkSession
 from pyspark.sql.types import (
     StructType,
     StructField,
@@ -8,13 +9,16 @@ from pyspark.sql.types import (
     ArrayType,
     MapType,
 )
-from dek.spark.extension import patch_spark_extensions
+
+from testfixtures import log_capture
+
+from dek.spark.extension import patch_StructType, patch_SparkSession
 
 
 # fmt: off
 @pytest.mark.skip(reason="Not sure how to assert multiline string in this one")
 def test_schema_treeString():
-    patch_spark_extensions()
+    patch_StructType()
 
     schema = StructType([
         StructField("customer", StringType(), True),
@@ -94,3 +98,14 @@ root
     # )
     assert repr(schema.treeString()) == expected
 # fmt: on
+
+
+@log_capture()
+def test_spark_sql_extension(capture, spark: SparkSession):
+    patch_SparkSession()
+
+    _ = spark.sql('SELECT 1')
+
+    capture.check(
+        ('dek.spark.extension', 'INFO', 'Executing Spark SQL\nSELECT 1'),
+    )

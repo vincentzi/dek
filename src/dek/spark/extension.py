@@ -1,3 +1,5 @@
+import logging
+from pyspark.sql import SparkSession
 from pyspark.sql.types import (
     StructType,
     StructField,
@@ -5,6 +7,8 @@ from pyspark.sql.types import (
     MapType,
     DataType,
 )
+
+logger = logging.getLogger(__name__)
 
 
 def _treeString(schema: StructType) -> str:
@@ -69,5 +73,16 @@ def _treeString(schema: StructType) -> str:
     return buffer.getvalue()
 
 
-def patch_spark_extensions():
+def patch_StructType():
     StructType.treeString = lambda self: _treeString(self)
+
+
+def patch_SparkSession():
+    def LogArg(func):
+        def _(self, sqlQuery):
+            logger.info(f'Executing Spark SQL\n{sqlQuery}')
+            return func(self, sqlQuery)
+
+        return _
+
+    SparkSession.sql = LogArg(SparkSession.sql)
