@@ -1,4 +1,3 @@
-import pytest
 from pyspark.sql import SparkSession
 from pyspark.sql.types import (
     StructType,
@@ -16,7 +15,6 @@ from dek.spark.extension import patch_StructType, patch_SparkSession
 
 
 # fmt: off
-@pytest.mark.skip(reason="Not sure how to assert multiline string in this one")
 def test_schema_treeString():
     patch_StructType()
 
@@ -70,33 +68,9 @@ root
  |    |-- province: struct (nullable = false)
  |    |    |-- province_code: string (nullable = false)
  |    |    |-- province_name: string (nullable = false)
- |    |-- postal_code: string (nullable = false
+ |    |-- postal_code: string (nullable = false)
 """
-
-    # expected = (
-    #     "root\n"
-    #     " |-- customer: string (nullable = true)\n"
-    #     " |-- date: string (nullable = true)\n"
-    #     " |-- itemList: array (nullable = true)\n"
-    #     " |    |-- element: struct (containsNull = true)\n"
-    #     " |    |    |-- item: string (nullable = true)\n"
-    #     " |    |    |-- price: double (nullable = true)\n"
-    #     " |    |    |-- quantity: double (nullable = true)\n"
-    #     " |    |    |-- categoryTags: array (nullable = true)\n"
-    #     " |    |    |    |-- element: map (containsNull = false)\n"
-    #     " |    |    |    |    |-- key: string\n"
-    #     " |    |    |    |    |-- value: struct (valueContainsNull = false)\n"
-    #     " |    |    |    |    |    |-- tagId: integer (nullable = false)\n"
-    #     " |    |    |    |    |    |-- tagDesc: string (nullable = false)\n"
-    #     " |-- store: string (nullable = true)\n"
-    #     " |-- address: struct (nullable = true)\n"
-    #     " |    |-- city: string (nullable = false)\n"
-    #     " |    |-- province: struct (nullable = false)\n"
-    #     " |    |    |-- province_code: string (nullable = false)\n"
-    #     " |    |    |-- province_name: string (nullable = false)\n"
-    #     " |    |-- postal_code: string (nullable = false\n"
-    # )
-    assert repr(schema.treeString()) == expected
+    assert repr(schema.treeString()) == repr(expected)
 # fmt: on
 
 
