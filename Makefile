@@ -37,3 +37,6 @@ uninstall-dev: ## Uninstall development packages
 
 build: clean ## Build wheel
 	python -m build
+
+unit-test: ## Run unit tests
+	pytest -vv
