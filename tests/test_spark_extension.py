@@ -33,9 +33,10 @@ def test_schema_treeString():
                     ]), False),
                     False
                 ), True),
+                StructField("label", MapType(StringType(), StringType(), False), False),
             ]), True),
-            True
-            ),
+            True,
+        ),
         StructField("store", StringType(), True),
         StructField("address", StructType([
             StructField('city', StringType(), False),
@@ -62,6 +63,9 @@ root
  |    |    |    |    |-- value: struct (valueContainsNull = false)
  |    |    |    |    |    |-- tagId: integer (nullable = false)
  |    |    |    |    |    |-- tagDesc: string (nullable = false)
+ |    |    |-- label: map (nullable = false)
+ |    |    |    |-- key: string
+ |    |    |    |-- value: string (valueContainsNull = false)
  |-- store: string (nullable = true)
  |-- address: struct (nullable = true)
  |    |-- city: string (nullable = false)

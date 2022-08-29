@@ -12,49 +12,39 @@ logger = logging.getLogger(__name__)
 
 
 def _treeString(schema: StructType) -> str:
-    # helpers
     from io import StringIO
 
-    def prefix(level: int) -> str:
-        head = ' '
-        tail = '--'
-        body = '|'
-        _4_SPACES = ' ' * 4
+    def schemaStr(struct: DataType, level: int) -> str:
+        prefix = ' |   ' * level + ' |-- '
+        if isinstance(struct, ArrayType):
+            return f'{prefix}element: {struct.elementType.typeName()} (containsNull = {str(struct.containsNull).lower()})\n'
+        elif isinstance(struct, MapType):
+            return (
+                f'{prefix}key: {struct.keyType.typeName()}\n'
+                f'{prefix}value: {struct.valueType.typeName()} (valueContainsNull = {str(struct.valueContainsNull).lower()})\n'
+            )
+        elif isinstance(struct, StructField):
+            return f'{prefix}{struct.name}: {struct.dataType.typeName()} (nullable = {str(struct.nullable).lower()})\n'
+        else:
+            return ''
 
-        for _ in range(level - 1):
-            body += f'{_4_SPACES}|'
+    def treeStrTailRec(struct: DataType, level: int, buf: StringIO) -> None:
+        if isinstance(struct, ArrayType):
+            buf.write(schemaStr(struct, level))
+            treeStrTailRec(struct.elementType, level + 1, buf)
 
-        return head + body + tail
+        if isinstance(struct, MapType):
+            buf.write(schemaStr(struct, level))
+            treeStrTailRec(struct.valueType, level + 1, buf)
 
-    def process(struct: DataType, level: int, buf: StringIO):
         if isinstance(struct, StructType):
             for field in struct.fields:
-                process(field, level, buf)
+                treeStrTailRec(field, level, buf)
 
-        elif isinstance(struct, ArrayType):
-            buf.write(
-                f'{prefix(level)} element: {struct.elementType.typeName()} (containsNull = {str(struct.containsNull).lower()})\n'
-            )
-            process(struct.elementType, level + 1, buf)
+        if isinstance(struct, StructField):
+            buf.write(schemaStr(struct, level))
+            treeStrTailRec(struct.dataType, level + 1, buf)
 
-        elif isinstance(struct, MapType):
-            buf.write(f'{prefix(level)} key: {struct.keyType.typeName()}\n')
-            buf.write(
-                f'{prefix(level)} value: {struct.valueType.typeName()} (valueContainsNull = {str(struct.valueContainsNull).lower()})\n'
-            )
-            process(struct.valueType, level + 1, buf)
-
-        elif isinstance(struct, StructField):
-            buf.write(
-                f'{prefix(level)} {struct.name}: {struct.dataType.typeName()} (nullable = {str(struct.nullable).lower()})\n'
-            )
-
-            if isinstance(struct.dataType, ArrayType):
-                process(struct.dataType, level + 1, buf)
-            if isinstance(struct.dataType, StructType):
-                process(struct.dataType, level + 1, buf)
-
-    # main
     class _Buffer:
         def __init__(self):
             self._buffer = ''
@@ -65,10 +55,10 @@ def _treeString(schema: StructType) -> str:
         def getvalue(self):
             return self._buffer
 
-    # buffer = StringIO(newline=None)
     buffer = _Buffer()
     buffer.write('root\n')
-    process(struct=schema, level=1, buf=buffer)
+
+    treeStrTailRec(struct=schema, level=0, buf=buffer)
 
     return buffer.getvalue()
 
